@@ -17,3 +17,4 @@ variables:
 steps:
 - script: |
     dotnet build --configuration $(buildConfiguration)
+    dotnet test --configuration $(buildConfiguration)
