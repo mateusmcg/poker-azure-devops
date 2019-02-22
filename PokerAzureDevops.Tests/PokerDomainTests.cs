@@ -4,7 +4,7 @@ using PokerAzureDevops.Domain;
 namespace Tests
 {
     [TestFixture]
-    public class Tests
+    public class PokerDomainTests
     {
         private PokerDomain pokerDomain;
 
@@ -15,10 +15,10 @@ namespace Tests
         }
 
         [Test]
-        public void ShouldReturnLetsPlayPokerString()
+        public void ShouldReturnFiveCards()
         {
-            var str = pokerDomain.GetPokerString();
-            Assert.AreEqual("Let's play poker!", str);
+            var cartas = pokerDomain.DistribuirCartas();
+            Assert.AreEqual(5, cartas.Count);
         }
     }
 }
