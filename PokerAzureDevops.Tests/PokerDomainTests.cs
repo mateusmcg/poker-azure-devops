@@ -3,6 +3,7 @@ using NUnit.Framework;
 using PokerAzureDevops.Domain;
 using PokerAzureDevops.Enums;
 using PokerAzureDevops.Model;
+using PokerAzureDevops.Util;
 
 namespace Tests
 {
@@ -18,123 +19,23 @@ namespace Tests
         }
 
         [Test]
-        public void ShouldReturnFiveCards()
+        public void ShouldReturnFiveCardsAndDecreaseBaralhoCount()
         {
-            var cartas = pokerDomain.DistribuirCartas();
-            Assert.IsNotNull(cartas);
-            Assert.AreEqual(5, cartas.Count);
+            var baralho = Util.GetBaralho();
+            var cartasJogador1 = pokerDomain.DistribuirCartas(baralho);
+            var cartasJogador2 = pokerDomain.DistribuirCartas(baralho);
+            Assert.IsNotNull(cartasJogador1);
+            Assert.IsNotNull(cartasJogador2);
+            Assert.AreEqual(5, cartasJogador1.Count);
+            Assert.AreEqual(5, cartasJogador2.Count);
+            Assert.AreEqual(42, baralho.Count);
         }
 
         [Test]
-        public void ShouldCheckIfThereIsNotAFlush()
+        public void ShouldReturnAWinner()
         {
-            var cartas = new List<Carta>
-            {
-                new Carta() { Naipe = Naipes.Espadas},
-                new Carta() { Naipe = Naipes.Copa},
-                new Carta() { Naipe = Naipes.Copa},
-                new Carta() { Naipe = Naipes.Copa},
-                new Carta() { Naipe = Naipes.Copa}
-            };
-
-            var cartasIguais = pokerDomain.IsFlush(cartas);
-            Assert.IsFalse(cartasIguais);
-        }
-
-        [Test]
-        public void ShouldCheckIfIsAFlush()
-        {
-            var cartas = new List<Carta>
-            {
-                new Carta() { Naipe = Naipes.Copa},
-                new Carta() { Naipe = Naipes.Copa},
-                new Carta() { Naipe = Naipes.Copa},
-                new Carta() { Naipe = Naipes.Copa},
-                new Carta() { Naipe = Naipes.Copa}
-            };
-
-            var cartasIguais = pokerDomain.IsFlush(cartas);
-            Assert.IsTrue(cartasIguais);
-        }
-
-        [Test]
-        public void ShouldCheckIfIsAStraight()
-        {
-            var cartas = new List<Carta>
-            {
-                new Carta() { NumCarta = NumCarta.Oito},
-                new Carta() { NumCarta = NumCarta.Nove},
-                new Carta() { NumCarta = NumCarta.Dez},
-                new Carta() { NumCarta = NumCarta.Valete},
-                new Carta() { NumCarta = NumCarta.Dama},
-            };
-
-            var cartasIguais = pokerDomain.IsStraight(cartas);
-            Assert.IsTrue(cartasIguais);
-        }
-
-        [Test]
-        public void ShouldCheckIfIsNotAStraight()
-        {
-            var cartas = new List<Carta>
-            {
-                new Carta() { NumCarta = NumCarta.Oito},
-                new Carta() { NumCarta = NumCarta.Nove},
-                new Carta() { NumCarta = NumCarta.As},
-                new Carta() { NumCarta = NumCarta.Valete},
-                new Carta() { NumCarta = NumCarta.Dama},
-            };
-
-            var cartasIguais = pokerDomain.IsStraight(cartas);
-            Assert.False(cartasIguais);
-        }
-
-        [Test]
-        public void ShouldCheckIfIsARoyalFlush()
-        {
-            var cartas = new List<Carta>
-            {
-                new Carta() { NumCarta = NumCarta.Dez, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.Valete, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.Dama, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.Rei, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.As, Naipe = Naipes.Ouro},
-            };
-
-            var cartasIguais = pokerDomain.IsRoyalFlush(cartas);
-            Assert.True(cartasIguais);
-        }
-
-        [Test]
-        public void ShouldCheckIfIsNotAARoyalFlushByNaipes()
-        {
-            var cartas = new List<Carta>
-            {
-                new Carta() { NumCarta = NumCarta.Dez, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.Valete, Naipe = Naipes.Espadas},
-                new Carta() { NumCarta = NumCarta.Dama, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.Rei, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.As, Naipe = Naipes.Ouro},
-            };
-
-            var cartasIguais = pokerDomain.IsRoyalFlush(cartas);
-            Assert.False(cartasIguais);
-        }
-
-        [Test]
-        public void ShouldCheckIfIsNotAARoyalFlushByNumCard()
-        {
-            var cartas = new List<Carta>
-            {
-                new Carta() { NumCarta = NumCarta.Dez, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.Cinco, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.Dama, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.Rei, Naipe = Naipes.Ouro},
-                new Carta() { NumCarta = NumCarta.As, Naipe = Naipes.Ouro},
-            };
-
-            var cartasIguais = pokerDomain.IsRoyalFlush(cartas);
-            Assert.False(cartasIguais);
+            var winner = pokerDomain.IniciarPartida(new Jogador("Jogador 1"), new Jogador("Jogador 2"));
+            Assert.NotNull(winner);
         }
     }
 }
