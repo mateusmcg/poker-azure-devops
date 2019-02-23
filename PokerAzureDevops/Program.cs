@@ -14,15 +14,20 @@ namespace PokerAzureDevops
 
             Console.WriteLine("Iniciando Partida!");
 
-            var vencedor = domain.IniciarPartida(new Jogador("Jogador 1"), new Jogador("Jogador 2"));
+            var jogador1 = new Jogador("Jogador 1");
+            var jogador2 = new Jogador("Jogador 2");
 
-            if (vencedor == null)
+            var partida = domain.IniciarPartida(jogador1, jogador2);
+
+            if (partida == null)
             {
-                Console.WriteLine(string.Format("Não teve vencedor..."));
+                System.Console.WriteLine("\nHouve um empate de High Card! Cartas:\n");
+                System.Console.WriteLine(string.Format("Jogador1: {0} \nJogador2: {1} ", jogador1.ToString(), jogador2.ToString()));
                 return;
             }
 
-            Console.WriteLine(string.Format("O vencedor é: {0}", vencedor.Nome));
+            Console.WriteLine(string.Format("\nO vencedor é: {0} ({1})", partida.Vencedor.Nome, partida.MaoVencedora.ToString()));
+            System.Console.WriteLine(string.Format("\nCartas Jogador1: {0} \nCartas Jogador2: {1} ", jogador1.ToString(), jogador2.ToString()));
 
             Console.ReadKey();
         }
