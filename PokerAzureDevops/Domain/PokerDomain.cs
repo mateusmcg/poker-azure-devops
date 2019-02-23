@@ -74,19 +74,30 @@ namespace PokerAzureDevops.Domain
             }
         }
 
+        public Jogador CheckHighCard(Jogador jogador1, Jogador jogador2)
+        {
+            var highCardJogador1 = jogador1.Cartas.OrderByDescending(carta => carta.NumCarta).First();
+            var highCardJogador2 = jogador2.Cartas.OrderByDescending(carta => carta.NumCarta).First();
+
+            if (highCardJogador1.NumCarta > highCardJogador2.NumCarta)
+                return jogador1;
+            else
+                return jogador2;
+        }
+
         public bool IsPair(List<Carta> cartas)
         {
-            throw new NotImplementedException();
+            return CheckHandAndQuantity(cartas, Hands.Pair, 1);
         }
 
         public bool IsTwoPairs(List<Carta> cartas)
         {
-            throw new NotImplementedException();
+            return CheckHandAndQuantity(cartas, Hands.Pair, 2);
         }
 
         public bool IsTrinca(List<Carta> cartas)
         {
-            throw new NotImplementedException();
+            return CheckHandAndQuantity(cartas, Hands.Trinca, 1);
         }
 
         public bool IsStraight(List<Carta> cartas)
@@ -112,17 +123,17 @@ namespace PokerAzureDevops.Domain
 
         public bool IsFullHouse(List<Carta> cartas)
         {
-            throw new NotImplementedException();
+            return IsPair(cartas) && IsTrinca(cartas);
         }
 
         public bool IsQuadra(List<Carta> cartas)
         {
-            throw new NotImplementedException();
+            return CheckHandAndQuantity(cartas, Hands.Quadra, 1);
         }
 
         public bool IsStraightFlush(List<Carta> cartas)
         {
-            return IsFlush(cartas) && IsStraight(cartas);
+            return IsFlush(cartas) && IsStraight(cartas) && !IsRoyalFlush(cartas);
         }
 
         public bool IsRoyalFlush(List<Carta> cartas)
@@ -134,6 +145,21 @@ namespace PokerAzureDevops.Domain
         {
             var cartasEmOrdem = cartas.OrderBy(carta => carta.NumCarta).ToList();
             return IsStraight(cartasEmOrdem) && cartasEmOrdem.First().NumCarta == NumCarta.Dez;
+        }
+
+        private bool CheckHandAndQuantity(List<Carta> cartas, Hands hand, int qtd)
+        {
+            var groups = cartas.GroupBy(carta => carta.NumCarta).ToList();
+            var pairsCount = 0;
+            groups.ForEach(group =>
+            {
+                if (group.Count() == (int)hand)
+                {
+                    pairsCount++;
+                }
+            });
+
+            return pairsCount == qtd;
         }
 
     }
