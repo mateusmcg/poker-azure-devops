@@ -35,8 +35,11 @@ modificado ao projeto principal na mesma frequência que as funcionalidade são 
 
 # Repostas Exercício 2
 
-a)
+a) A startup ABC trabalha com soluções PHP, MYSQL e quer usar uma infraestrutura baseada em Docker e Kubernetes. 
+CI / CD para contêineres - É possível obter clusters de contêineres replicáveis e gerenciáveis. 
+Em alguns casos, talvez você não consiga atribuir a função necessária à entidade de serviço AKS gerada automaticamente, concedendo-lhe acesso ao ACR. Por exemplo, devido ao modelo de segurança da sua organização, talvez você não tenha permissões suficientes em seu locatário do Azure Active Directory para atribuir uma função à entidade de serviço gerada pelo AKS. Atribuir uma função a uma entidade de serviço exige que sua conta do Azure AD tenha permissão de gravação para seu locatário do Azure AD. Se você não tiver permissão, poderá criar uma nova entidade de serviço e conceder acesso ao registro do contêiner usando um segredo de recepção de imagem do Kubernetes. 
 
-b)
+b) A empresa XYZ trabalha com Java e já possui o Jenkins como solução de CI para automação de seus builds. Visão geral da CI/CD de Infraestrutura Imutável usando Jenkins e Terraform na Arquitetura virtual do Azure. O servidor Jenkins delega trabalho para um ou mais agentes para permitir que uma única instalação Jenkins hospede um número grande de projetos ou para fornecer ambientes diferentes, necessários para compilações ou testes. 
 
-c)
+c) A empresa XPTO não tem profissional que conheça de infraestrutura com profundidade e que implantar um pipeline CD do DevOps com o menor custo possível. 
+CI / CD para aplicativos da Web do Azure - O Azure Web Apps é uma maneira rápida e simples. Neste exemplo, o pipeline de CI/CD implanta um aplicativo Web do .NET de duas camadas para o Serviço de Aplicativo do Azure. 
