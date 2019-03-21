@@ -5,16 +5,10 @@ pr:
   branches:
     include:
     - master
-
-trigger:
-  branches:
-    include:
-    - master
   
 variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: |
-    dotnet build --configuration $(buildConfiguration)
-    dotnet test --configuration $(buildConfiguration) --no-build
+- script: dotnet build --configuration $(buildConfiguration)
+- script: dotnet test --configuration $(buildConfiguration) --no-build
